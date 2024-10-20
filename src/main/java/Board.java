@@ -31,46 +31,53 @@ public class Board {
     }
 
     public void printBoard() {
-        for (int rowIdx = 0; rowIdx < this.numRows; rowIdx++) {
-            printRow(rowIdx);
+        StringBuilder boardBuilder = new StringBuilder();
 
-            if (isNotLastRow(rowIdx)) {
-                printRowSeparationLine();
-            }
+        String rowSeparationLine = getRowDividerLine();
+
+        for (char[] row : board) {
+            boardBuilder
+                    .append(getRowLine(row))
+                    .append(rowSeparationLine);
         }
+
+        boardBuilder.setLength(
+                boardBuilder.length() - rowSeparationLine.length()
+        );
+
+        System.out.println(boardBuilder);
     }
 
-    private void printRow(int rowIdx) {
-        for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
-            char cellValue = board[rowIdx][colIdx];
+    private String getRowLine(char[] row) {
+        StringBuilder rowBuilder = new StringBuilder();
 
-            System.out.print(CELL_PADDING + cellValue + CELL_PADDING);
+        for (char cell : row) {
+            String paddedCell = CELL_PADDING + cell + CELL_PADDING;
 
-            if (isNotLastColumn(colIdx)) {
-                System.out.print(COLUMN_DIVIDER);
-            }
+            rowBuilder
+                    .append(paddedCell)
+                    .append(COLUMN_DIVIDER);
         }
-        System.out.println();
+
+        rowBuilder.setLength(
+                rowBuilder.length() - COLUMN_DIVIDER.length()
+        );
+
+        return rowBuilder + "\n";
     }
 
-    private void printRowSeparationLine() {
-        for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
-            for (int i = 0; i < CELL_LEN; i++) {
-                System.out.print(ROW_DIVIDER);
-            }
+    private String getRowDividerLine() {
 
-            if (isNotLastColumn(colIdx)) {
-                System.out.print(INTERSECTION_DIVIDER);
-            }
-        }
-        System.out.println();
-    }
+        StringBuilder rowSeparationLineBuilder = new StringBuilder();
 
-    private boolean isNotLastRow(int rowIdx) {
-        return rowIdx < this.numRows - 1;
-    }
+        rowSeparationLineBuilder
+                .append(
+                        (ROW_DIVIDER.repeat(CELL_LEN) + INTERSECTION_DIVIDER).repeat(this.numCols)
+                )
+                .setLength(
+                        rowSeparationLineBuilder.length() - INTERSECTION_DIVIDER.length()
+                );
 
-    private boolean isNotLastColumn(int colIdx) {
-        return colIdx < this.numCols - 1;
+        return rowSeparationLineBuilder + "\n";
     }
 }
