@@ -1,5 +1,14 @@
 public class Board {
 
+    private static final String COLUMN_DIVIDER = "|";
+    private static final String ROW_DIVIDER = "-";
+    private static final String INTERSECTION_DIVIDER = "+";
+    private static final String CELL_PADDING = " ";
+
+    private static final char EMPTY_CELL_CHAR = ' ';
+
+    private static final int CELL_LEN = (CELL_PADDING + EMPTY_CELL_CHAR + CELL_PADDING).length();
+
     private final int numCols;
     private final int numRows;
 
@@ -10,43 +19,58 @@ public class Board {
         this.numCols = numCols;
         this.board = new char[numRows][numCols];
 
-        // Initialize the board with empty cells.
+        initBoard();
+    }
+
+    private void initBoard() {
         for (int rowIdx = 0; rowIdx < this.numRows; rowIdx++) {
             for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
-                board[rowIdx][colIdx] = ' ';
+                board[rowIdx][colIdx] = EMPTY_CELL_CHAR;
             }
         }
     }
 
     public void printBoard() {
-        // For each row on the board, print the row with its cells and the row separation line.
         for (int rowIdx = 0; rowIdx < this.numRows; rowIdx++) {
-            // Print the padded cell value with a column divider in between.
-            for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
-                char cellValue = board[rowIdx][colIdx];
+            printRow(rowIdx);
 
-                System.out.print(" " + cellValue + " ");
-
-                // Only print the column divider if colIdx is not the last one.
-                if (colIdx < this.numCols - 1) {
-                    System.out.print("|");
-                }
-            }
-            System.out.println();
-
-            // Only print the row separation line if rowIdx is not the last one.
-            if (rowIdx < this.numRows - 1) {
-                // Print the row separation line using the row divider, with the intersection divider in between.
-                for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
-                    System.out.print("---");
-
-                    // Only print the intersection divider if colIdx is not the last one.
-                    if (colIdx < this.numCols - 1) {
-                        System.out.print("+");
-                    }
-                }
-                System.out.println();
+            if (isNotLastRow(rowIdx)) {
+                printRowSeparationLine();
             }
         }
+    }
+
+    private void printRow(int rowIdx) {
+        for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
+            char cellValue = board[rowIdx][colIdx];
+
+            System.out.print(CELL_PADDING + cellValue + CELL_PADDING);
+
+            if (isNotLastColumn(colIdx)) {
+                System.out.print(COLUMN_DIVIDER);
+            }
+        }
+        System.out.println();
+    }
+
+    private void printRowSeparationLine() {
+        for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
+            for (int i = 0; i < CELL_LEN; i++) {
+                System.out.print(ROW_DIVIDER);
+            }
+
+            if (isNotLastColumn(colIdx)) {
+                System.out.print(INTERSECTION_DIVIDER);
+            }
+        }
+        System.out.println();
+    }
+
+    private boolean isNotLastRow(int rowIdx) {
+        return rowIdx < this.numRows - 1;
+    }
+
+    private boolean isNotLastColumn(int colIdx) {
+        return colIdx < this.numCols - 1;
     }
 }
