@@ -31,53 +31,46 @@ public class Board {
     }
 
     public void printBoard() {
-        StringBuilder boardBuilder = new StringBuilder();
+        for (int rowIdx = 0; rowIdx < this.numRows; rowIdx++) {
+            printRow(rowIdx);
 
-        String rowSeparationLine = getRowDividerLine();
-
-        for (char[] row : board) {
-            boardBuilder
-                    .append(getRowLine(row))
-                    .append(rowSeparationLine);
+            if (isNotLastRow(rowIdx)) {
+                printRowSeparationLine();
+            }
         }
-
-        boardBuilder.setLength(
-                boardBuilder.length() - rowSeparationLine.length()
-        );
-
-        System.out.println(boardBuilder);
     }
 
-    private String getRowLine(char[] row) {
-        StringBuilder rowBuilder = new StringBuilder();
+    private void printRow(int rowIdx) {
+        for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
+            char cellValue = board[rowIdx][colIdx];
 
-        for (char cell : row) {
-            String paddedCell = CELL_PADDING + cell + CELL_PADDING;
+            System.out.print(CELL_PADDING + cellValue + CELL_PADDING);
 
-            rowBuilder
-                    .append(paddedCell)
-                    .append(COLUMN_DIVIDER);
+            if (isNotLastColumn(colIdx)) {
+                System.out.print(COLUMN_DIVIDER);
+            }
         }
-
-        rowBuilder.setLength(
-                rowBuilder.length() - COLUMN_DIVIDER.length()
-        );
-
-        return rowBuilder + "\n";
+        System.out.println();
     }
 
-    private String getRowDividerLine() {
+    private void printRowSeparationLine() {
+        for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
+            for (int i = 0; i < CELL_LEN; i++) {
+                System.out.print(ROW_DIVIDER);
+            }
 
-        StringBuilder rowSeparationLineBuilder = new StringBuilder();
+            if (isNotLastColumn(colIdx)) {
+                System.out.print(INTERSECTION_DIVIDER);
+            }
+        }
+        System.out.println();
+    }
 
-        rowSeparationLineBuilder
-                .append(
-                        (ROW_DIVIDER.repeat(CELL_LEN) + INTERSECTION_DIVIDER).repeat(this.numCols)
-                )
-                .setLength(
-                        rowSeparationLineBuilder.length() - INTERSECTION_DIVIDER.length()
-                );
+    private boolean isNotLastRow(int rowIdx) {
+        return rowIdx < this.numRows - 1;
+    }
 
-        return rowSeparationLineBuilder + "\n";
+    private boolean isNotLastColumn(int colIdx) {
+        return colIdx < this.numCols - 1;
     }
 }
