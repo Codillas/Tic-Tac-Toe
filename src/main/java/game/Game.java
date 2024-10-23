@@ -2,6 +2,8 @@ package game;
 
 import board.Board;
 import player.Player;
+import color.Color;
+import printer.Printer;
 
 import java.util.Scanner;
 
@@ -10,6 +12,7 @@ public class Game {
     private final Player playerX;
     private final Player playerO;
     private final Board board;
+
     private Player currentPlayer;
 
     public Game(Player playerX, Player playerO, Board board) {
@@ -24,61 +27,59 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         boolean isGameOver = false;
 
-        System.out.println();
-        System.out.println("Game on!");
-        System.out.println();
-
         while (!isGameOver) {
-            System.out.println("Current board:");
-
-            System.out.println();
+            Printer.cls();
             board.printBoard();
-            System.out.println();
+            Printer.println();
 
-            System.out.printf("%s's turn. Enter row and column (e.g., 1 1): ", currentPlayer.getName());
-            int row = scanner.nextInt();
-            int col = scanner.nextInt();
+            int rowIdx;
+            int colIdx;
 
-            System.out.println();
+            // Read player's move and check whether the move is valid
+            do {
+                Printer.print(currentPlayer.getName(), currentPlayer.getColor());
+                Printer.print("'s turn. Enter row and column (e.g., 0 0): ");
 
-            // Validate move
-            if (!board.isValidMove(row, col)) {
-                System.out.println("Invalid move! Try again.");
-                System.out.println();
-                continue;
-            }
+                rowIdx = scanner.nextInt();
+                colIdx = scanner.nextInt();
+
+                Printer.println();
+
+                if (board.isInvalidMove(rowIdx, colIdx)) {
+                    Printer.println("Invalid move!", Color.RED);
+                    Printer.println();
+                }
+            } while (board.isInvalidMove(rowIdx, colIdx));
 
             if (currentPlayer == playerX) {
-                board.makeMoveX(row, col);
+                board.makeMoveX(rowIdx, colIdx);
             } else {
-                board.makeMoveO(row, col);
+                board.makeMoveO(rowIdx, colIdx);
             }
 
             // Check game over conditions
             if (board.hasWinner()) {
-                System.out.println(currentPlayer.getName() + " wins!");
-                System.out.println();
-
+                Printer.cls();
                 board.printBoard();
+                Printer.println();
+
+                Printer.print(currentPlayer.getName(), currentPlayer.getColor());
+                Printer.println(" wins!");
 
                 isGameOver = true;
             } else if (board.isFull()) {
-                System.out.println("It's a draw!");
-                System.out.println();
-
+                Printer.cls();
                 board.printBoard();
+                Printer.println();
+
+                Printer.println("It is a draw!", Color.YELLOW);
 
                 isGameOver = true;
             } else {
                 // Switch players
                 currentPlayer = (currentPlayer == playerX) ? playerO : playerX;
             }
-
-            if (isGameOver) {
-                board.hasWinner();
-            }
         }
         scanner.close();
     }
-
 }

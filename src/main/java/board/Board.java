@@ -1,6 +1,6 @@
 package board;
 
-import printer.Color;
+import color.Color;
 import printer.Printer;
 
 public class Board {
@@ -25,7 +25,7 @@ public class Board {
     private static final Color X_COLOR = Color.GREEN;
     private static final Color O_COLOR = Color.BLUE;
     private static final Color HEADER_COLOR = Color.MAGENTA;
-    private static final Color WIN_COLOR = Color.BG_YELLOW;
+    private static final Color WIN_COLOR = Color.RED;
     private static final Color DEFAULT_COLOR = Color.DEFAULT;
 
     // Radix
@@ -79,12 +79,12 @@ public class Board {
         board[rowIdx][colIdx] = O_CELL_CHAR;
     }
 
-    public boolean isValidMove(int rowIdx, int colIdx) {
+    public boolean isInvalidMove(int rowIdx, int colIdx) {
         if (rowIdx < 0 || colIdx < 0 && rowIdx >= numRows || colIdx >= numCols) {
-            return false;
+            return true;
         }
 
-        return board[rowIdx][colIdx] == EMPTY_CELL_CHAR;
+        return board[rowIdx][colIdx] != EMPTY_CELL_CHAR;
     }
 
     public boolean isFull() {

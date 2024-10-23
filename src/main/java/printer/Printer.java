@@ -1,20 +1,33 @@
 package printer;
 
+import color.Color;
+
 public class Printer {
+    public static void cls() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
+
     public static void println() {
         System.out.println();
+    }
+
+    public static void println(String value) {
+        println(value, Color.DEFAULT);
+    }
+
+    public static void println(String value, Color color) {
+        print(value, color);
+        println();
+    }
+
+    public static void print(String value) {
+        print(value, Color.DEFAULT);
     }
 
     public static void print(String value, Color color) {
         String ansi_color = switch (color) {
             case DEFAULT -> "\u001B[0m";
-            case BG_GRAY -> "\u001B[47m";
-            case BG_CYAN -> "\u001B[46m";
-            case BG_MAGENTA -> "\u001B[45m";
-            case BG_BLUE -> "\u001B[44m";
-            case BG_YELLOW -> "\u001B[43m";
-            case BG_GREEN -> "\u001B[42m";
-            case BG_RED -> "\u001B[41m";
             case GRAY -> "\u001B[37m";
             case BLACK -> "\u001B[30m";
             case RED -> "\u001B[31m";
