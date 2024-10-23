@@ -5,22 +5,6 @@ public class Printer {
         System.out.println();
     }
 
-    public static void println(String value) {
-        System.out.println(value);
-    }
-
-    public static void print(char value) {
-        print(String.valueOf(value));
-    }
-
-    public static void print(String value) {
-        print(value, Color.DEFAULT);
-    }
-
-    public static void print(char value, Color color) {
-        print(String.valueOf(value), color);
-    }
-
     public static void print(String value, Color color) {
         String ansi_color = switch (color) {
             case DEFAULT -> "\u001B[0m";
