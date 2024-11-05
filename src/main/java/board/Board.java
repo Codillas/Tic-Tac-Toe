@@ -7,7 +7,7 @@ public class Board {
 
     // =================================================================================================================
 
-    // board.Board building blocks
+    // Board building blocks
     private static final String COLUMN_DIVIDER = "|";
     private static final String ROW_DIVIDER = "-";
     private static final String INTERSECTION_DIVIDER = "+";
@@ -40,6 +40,10 @@ public class Board {
     private final char[][] board;
     private final int[][] winLineCoordinates;
 
+    public Board(int numRows, int numCols) {
+        this(numRows, numCols, 3);
+    }
+
     public Board(int numRows, int numCols, int winLength) {
         this.numRows = numRows;
         this.numCols = numCols;
@@ -49,10 +53,10 @@ public class Board {
 
         this.board = new char[numRows][numCols];
 
-        initBoard();
+        init();
     }
 
-    private void initBoard() {
+    private void init() {
         for (int rowIdx = 0; rowIdx < this.numRows; rowIdx++) {
             for (int colIdx = 0; colIdx < this.numCols; colIdx++) {
                 board[rowIdx][colIdx] = EMPTY_CELL_CHAR;
@@ -60,7 +64,7 @@ public class Board {
         }
     }
 
-    public void printBoard() {
+    public void print() {
         printRowHeader();
         for (int rowIdx = 0; rowIdx < this.numRows; rowIdx++) {
             printRow(rowIdx);

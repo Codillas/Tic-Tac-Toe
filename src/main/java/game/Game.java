@@ -29,7 +29,7 @@ public class Game {
 
         while (!isGameOver) {
             Printer.cls();
-            board.printBoard();
+            board.print();
             Printer.println();
 
             int rowIdx;
@@ -60,7 +60,7 @@ public class Game {
             // Check game over conditions
             if (board.hasWinner()) {
                 Printer.cls();
-                board.printBoard();
+                board.print();
                 Printer.println();
 
                 Printer.print(currentPlayer.getName(), currentPlayer.getColor());
@@ -69,7 +69,7 @@ public class Game {
                 isGameOver = true;
             } else if (board.isFull()) {
                 Printer.cls();
-                board.printBoard();
+                board.print();
                 Printer.println();
 
                 Printer.println("It is a draw!", Color.YELLOW);

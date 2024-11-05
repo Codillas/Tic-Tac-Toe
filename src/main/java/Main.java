@@ -6,13 +6,13 @@ import color.Color;
 public class Main {
     public static void main(String[] args) {
 
-        Player playerX = new Player("Player-X", Color.GREEN);
-        Player playerO = new Player("Player-O", Color.BLUE);
+        Board board1 = new Board(3, 3);
 
-        Board board = new Board(3, 3, 3);
+        board1.print();
 
-        Game game = new Game(playerX, playerO, board);
+        Board board2 = new Board(5, 2);
 
-        game.start();
+        board2.print();
+
     }
 }
